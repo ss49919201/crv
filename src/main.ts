@@ -1,11 +1,17 @@
+import { program } from "commander";
 import { updateToPrivate } from "./controller/updateToPrivate";
 import { updateVisibility } from "./service/github";
 
-async function main() {
-  await updateToPrivate("", "", updateVisibility);
+function main() {
+  program
+    .command("private")
+    .argument("<repo>")
+    .argument("<owner>")
+    .action(async (repo, owner) => {
+      await updateToPrivate(repo, owner, updateVisibility);
+    });
+
+  program.parse();
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+main();
