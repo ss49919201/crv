@@ -9,11 +9,11 @@
   "author": "ss49910201",
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^22.4.0",
     "typescript": "^5.5.4"
   },
   "dependencies": {
     "@octokit/types": "^13.5.0",
-    "@types/node": "^22.4.0",
     "commander": "^12.1.0",
     "octokit": "^4.0.2",
     "tsx": "^4.17.0",
