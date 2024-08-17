@@ -1,0 +1,10 @@
+{
+  "name": "crv",
+  "version": "1.0.0",
+  "description": "crv is an application that changes the visibility of the GitHub Repository.",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "ss49910201",
+  "license": "MIT"
+}
