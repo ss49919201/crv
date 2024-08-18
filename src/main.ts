@@ -1,6 +1,6 @@
 import { program } from "commander";
-import { updateToPrivate } from "./controller/updateToPrivate";
-import { updateVisibility } from "./service/github";
+import { updateToPrivate } from "./controller/updateToPrivate.js";
+import { updateVisibility } from "./service/github.js";
 
 function main() {
   program

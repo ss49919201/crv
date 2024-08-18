@@ -1,6 +1,6 @@
 import { Octokit } from "octokit";
 import z from "zod";
-import { debug } from "../debug/debug";
+import { debug } from "../debug/debug.js";
 
 const updateVisibilityInputSchema = z.object({
   ownerName: z.string(),
