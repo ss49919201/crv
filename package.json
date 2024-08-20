@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "description": "crv is an application that changes the visibility of the GitHub Repository.",
   "type": "module",
-  "scripts": {},
+  "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "tsc"
+  },
   "keywords": [],
   "author": "ss49910201",
   "license": "MIT",
