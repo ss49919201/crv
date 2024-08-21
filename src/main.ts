@@ -5,10 +5,20 @@ import { updateVisibility } from "./service/github.js";
 function main() {
   program
     .command("private")
-    .argument("<repo>")
+    .argument("<repos>")
     .argument("<owner>")
-    .action(async (repo, owner) => {
-      await updateToPrivate(repo, owner, updateVisibility);
+    .action(async (repos, owner) => {
+      if (typeof repos !== "string") {
+        throw new Error("Invalid argument: repos");
+      }
+
+      const reposArray = repos.split(",");
+
+      if (typeof owner !== "string") {
+        throw new Error("Invalid argument: owner");
+      }
+
+      await updateToPrivate(owner, reposArray, updateVisibility);
     });
 
   program.parse();

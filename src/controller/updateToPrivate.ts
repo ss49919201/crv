@@ -4,14 +4,24 @@ export type updateVisibility = (input: {
   visibility: "private" | "public";
 }) => Promise<void>;
 
-export function updateToPrivate(
+export async function updateToPrivate(
   ownerName: string,
-  repositoryName: string,
+  repositoryNames: string[],
   updateVisibility: updateVisibility
-) {
-  return updateVisibility({
-    ownerName,
-    repositoryName,
-    visibility: "private",
+): Promise<void> {
+  const promises = repositoryNames.map((repositoryName) => {
+    return updateVisibility({
+      ownerName,
+      repositoryName,
+      visibility: "private",
+    });
+  });
+
+  await Promise.allSettled(promises).then((values) => {
+    values.forEach((value) => {
+      if (value.status === "rejected") {
+        console.error(value.reason);
+      }
+    });
   });
 }
