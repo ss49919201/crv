@@ -14,6 +14,10 @@ export async function updateToPrivate(
       ownerName,
       repositoryName,
       visibility: "private",
+    }).catch((error) => {
+      throw new Error(
+        `Failed to update ${repositoryName} to private: ${error.message}`
+      );
     });
   });
 
