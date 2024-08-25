@@ -5,7 +5,7 @@ import { debug } from "../debug/debug.js";
 const updateVisibilityInputSchema = z.object({
   ownerName: z.string(),
   repositoryName: z.string(),
-  visibility: z.union([z.literal("private"), z.literal("public")]),
+  visibility: z.literal("private").or(z.literal("public")),
 });
 
 type UpdateVisibilityInput = z.infer<typeof updateVisibilityInputSchema>;
