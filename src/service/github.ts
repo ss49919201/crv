@@ -1,3 +1,4 @@
+import { ResultAsync } from "neverthrow";
 import { Octokit } from "octokit";
 import z from "zod";
 import { debug } from "../debug/debug.js";
@@ -11,17 +12,29 @@ const updateVisibilityInputSchema = z.object({
 type UpdateVisibilityInput = z.infer<typeof updateVisibilityInputSchema>;
 
 const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+const errMsg = "Failed to update visibility";
 
-export async function updateVisibility(
+export function updateVisibility(
   input: UpdateVisibilityInput
-): Promise<void> {
-  await octokit.request("PATCH /repos/{owner}/{repo}", {
-    owner: input.ownerName,
-    repo: input.repositoryName,
-    private: input.visibility === "private",
-  });
-
-  debug(
-    `Updated visibility of ${input.ownerName}/${input.repositoryName} to ${input.visibility}`
+): ResultAsync<void, Error> {
+  return ResultAsync.fromPromise(
+    octokit
+      .request("PATCH /repos/{owner}/{repo}", {
+        owner: input.ownerName,
+        repo: input.repositoryName,
+        private: input.visibility === "private",
+      })
+      .then(() => {
+        debug(
+          `Updated visibility of ${input.ownerName}/${input.repositoryName} to ${input.visibility}`
+        );
+        return Promise.resolve();
+      }),
+    (error) => {
+      if (error instanceof Error) {
+        return new Error(`${errMsg}: ${error.message}`);
+      }
+      return new Error(errMsg);
+    }
   );
 }

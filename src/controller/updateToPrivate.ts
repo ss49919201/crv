@@ -1,31 +1,41 @@
+import { ResultAsync } from "neverthrow";
+
 export type updateVisibility = (input: {
   ownerName: string;
   repositoryName: string;
   visibility: "private" | "public";
-}) => Promise<void>;
+}) => ResultAsync<void, Error>;
 
-export async function updateToPrivate(
+export function updateToPrivate(
   ownerName: string,
   repositoryNames: string[],
   updateVisibility: updateVisibility
-): Promise<void> {
+): ResultAsync<void, Error> {
   const promises = repositoryNames.map((repositoryName) => {
     return updateVisibility({
       ownerName,
       repositoryName,
       visibility: "private",
-    }).catch((error) => {
-      throw new Error(
-        `Failed to update ${repositoryName} to private: ${error.message}`
-      );
-    });
+    }).match(
+      () => {
+        // Noop
+      },
+      (error) => {
+        throw new Error(
+          `Failed to update ${repositoryName} to private: ${error.message}`
+        );
+      }
+    );
   });
 
-  await Promise.allSettled(promises).then((values) => {
-    values.forEach((value) => {
-      if (value.status === "rejected") {
-        console.error(value.reason);
-      }
-    });
-  });
+  return ResultAsync.fromPromise(
+    Promise.allSettled(promises).then((values) => {
+      values.forEach((value) => {
+        if (value.status === "rejected") {
+          console.error(value.reason);
+        }
+      });
+    }),
+    () => new Error("Failed to update repositories to private")
+  );
 }

@@ -19,6 +19,7 @@ function main() {
       }
 
       await updateToPrivate(owner, reposArray, updateVisibility);
+      console.log("Done!🎉");
     });
 
   program.parse();
