@@ -24,4 +24,11 @@ function main() {
   program.parse();
 }
 
-main();
+try {
+  main();
+
+  console.log("Done!");
+} catch (error) {
+  console.error("Error: ", error);
+  process.exit(1);
+}
