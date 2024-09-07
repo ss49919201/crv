@@ -18,8 +18,14 @@ function main() {
         throw new Error("Invalid argument: owner");
       }
 
-      await updateToPrivate(owner, reposArray, updateVisibility);
-      console.log("Done!🎉");
+      const output = await updateToPrivate(owner, reposArray, updateVisibility);
+      if (output.isOk()) {
+        console.log("Done!🎉");
+        console.log(
+          "Success repositories: ",
+          output.value.repositoryNames.join(", ")
+        );
+      }
     });
 
   program.parse();

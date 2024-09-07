@@ -10,7 +10,12 @@ export function updateToPrivate(
   ownerName: string,
   repositoryNames: string[],
   updateVisibility: updateVisibility
-): ResultAsync<void, Error> {
+): ResultAsync<
+  {
+    repositoryNames: string[];
+  },
+  Error
+> {
   const promises = repositoryNames.map((repositoryName) => {
     return updateVisibility({
       ownerName,
@@ -19,6 +24,7 @@ export function updateToPrivate(
     }).match(
       () => {
         // Noop
+        return repositoryName;
       },
       (error) => {
         throw new Error(
@@ -30,11 +36,20 @@ export function updateToPrivate(
 
   return ResultAsync.fromPromise(
     Promise.allSettled(promises).then((values) => {
+      const results: string[] = [];
+
       values.forEach((value) => {
-        if (value.status === "rejected") {
-          console.error(value.reason);
+        switch (value.status) {
+          case "rejected":
+            console.error(value.reason);
+            break;
+          case "fulfilled":
+            results.push(value.value);
+            break;
         }
       });
+
+      return { repositoryNames: results };
     }),
     () => new Error("Failed to update repositories to private")
   );
