@@ -13,13 +13,14 @@ type UpdateVisibilityInput = z.infer<typeof updateVisibilityInputSchema>;
 
 const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 const errMsg = "Failed to update visibility";
+const patchRepositoryEndpoint = "PATCH /repos/{owner}/{repo}";
 
 export function updateVisibility(
   input: UpdateVisibilityInput
 ): ResultAsync<void, Error> {
   return ResultAsync.fromPromise(
     octokit
-      .request("PATCH /repos/{owner}/{repo}", {
+      .request(patchRepositoryEndpoint, {
         owner: input.ownerName,
         repo: input.repositoryName,
         private: input.visibility === "private",
