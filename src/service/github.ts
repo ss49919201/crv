@@ -4,8 +4,8 @@ import z from "zod";
 import { debug } from "../debug/debug.js";
 
 const updateVisibilityInputSchema = z.object({
-  ownerName: z.string(),
-  repositoryName: z.string(),
+  ownerName: z.string().min(1),
+  repositoryName: z.string().min(1),
   visibility: z.literal("private").or(z.literal("public")),
 });
 
