@@ -6,7 +6,8 @@
   "bin": "./dist/main.js",
   "scripts": {
     "prebuild": "rm -rf dist",
-    "build": "pkgroll --minify"
+    "build": "pkgroll --minify",
+    "test": "vitest run"
   },
   "keywords": [],
   "author": "ss49910201",
