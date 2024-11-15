@@ -25,3 +25,25 @@ export const allSettled = async <T>(promises: Promise<T>[]) => {
     );
   });
 };
+
+if (import.meta.vitest) {
+  describe("allSettled", () => {
+    it("should return an object with fulfilled and rejected arrays", async () => {
+      const promises = [
+        Promise.resolve(1),
+        Promise.reject("error"),
+        Promise.resolve(2),
+      ];
+
+      const result = await allSettled(promises);
+
+      expect(result).toEqual({
+        fulfilled: [
+          { status: "fulfilled", value: 1 },
+          { status: "fulfilled", value: 2 },
+        ],
+        rejected: [{ status: "rejected", reason: "error" }],
+      });
+    });
+  });
+}
