@@ -8,5 +8,6 @@
     "outDir": "./dist",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "types": ["vitest/globals"],    
   }
 }
