@@ -1,12 +1,16 @@
 import { ResultAsync } from "neverthrow";
 import { Octokit } from "octokit";
-import z from "zod";
+import z, { ZodType } from "zod";
 import { debug } from "../debug/debug.js";
+
+type Visibility = "private" | "public";
 
 const updateVisibilityInputSchema = z.object({
   ownerName: z.string().min(1),
   repositoryName: z.string().min(1),
-  visibility: z.literal("private").or(z.literal("public")),
+  visibility: z
+    .literal("private")
+    .or(z.literal("public")) satisfies ZodType<Visibility>,
 });
 
 type UpdateVisibilityInput = z.infer<typeof updateVisibilityInputSchema>;
