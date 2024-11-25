@@ -1,6 +1,6 @@
 {
   "name": "crv-cli",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "crv is an application that changes the visibility of the GitHub Repository.",
   "type": "module",
   "bin": "./dist/main.js",
